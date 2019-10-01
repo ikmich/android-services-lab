@@ -14,13 +14,14 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import org.ikmich.servicelab.databinding.ActivityMainBinding;
+import org.ikmich.servicelab.services.binderservice.Api;
 import org.ikmich.servicelab.services.binderservice.BinderService;
 
 class BoundServiceWithBinderHelper implements LifecycleObserver {
 
     private AppCompatActivity activity;
     private boolean mBound;
-    private BinderService service;
+    private Api serviceApi;
     private ActivityMainBinding bnd;
 
     BoundServiceWithBinderHelper(MainActivity activity) {
@@ -51,7 +52,7 @@ class BoundServiceWithBinderHelper implements LifecycleObserver {
             @Override
             public void onClick(View view) {
                 if (mBound) {
-                    int randomNumber = service.getRandomNumber();
+                    int randomNumber = serviceApi.getRandomNumber();
                     Toast.makeText(activity, "Result: " + randomNumber, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -67,7 +68,7 @@ class BoundServiceWithBinderHelper implements LifecycleObserver {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             BinderService.LocalBinder binder = (BinderService.LocalBinder) iBinder;
-            service = binder.getApi();
+            serviceApi = binder.getApi();
             mBound = true;
         }
 
