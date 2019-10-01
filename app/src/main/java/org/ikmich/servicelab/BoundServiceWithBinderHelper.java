@@ -14,13 +14,13 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import org.ikmich.servicelab.databinding.ActivityMainBinding;
-import org.ikmich.servicelab.services.BoundService;
+import org.ikmich.servicelab.services.binderservice.BinderService;
 
 class BoundServiceWithBinderHelper implements LifecycleObserver {
 
     private AppCompatActivity activity;
     private boolean mBound;
-    private BoundService service;
+    private BinderService service;
     private ActivityMainBinding bnd;
 
     BoundServiceWithBinderHelper(MainActivity activity) {
@@ -59,15 +59,15 @@ class BoundServiceWithBinderHelper implements LifecycleObserver {
     }
 
     private void doBind() {
-        Intent intent = new Intent(activity, BoundService.class);
+        Intent intent = new Intent(activity, BinderService.class);
         activity.bindService(intent, connection, Context.BIND_AUTO_CREATE);
     }
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            BoundService.LocalBinder binder = (BoundService.LocalBinder) iBinder;
-            service = binder.getService();
+            BinderService.LocalBinder binder = (BinderService.LocalBinder) iBinder;
+            service = binder.getApi();
             mBound = true;
         }
 

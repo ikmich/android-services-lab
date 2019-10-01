@@ -14,7 +14,7 @@
             android:enabled="true"
             android:exported="false"></service>
         <service
-            android:name=".services.BoundService"
+            android:name=".services.binderservice.BinderService"
             android:enabled="true"
             android:exported="false" />
         <service

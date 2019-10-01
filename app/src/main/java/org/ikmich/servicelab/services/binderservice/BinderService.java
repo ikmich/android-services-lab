@@ -1,4 +1,4 @@
-package org.ikmich.servicelab.services;
+package org.ikmich.servicelab.services.binderservice;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,17 +7,18 @@ import android.os.IBinder;
 
 import java.util.Random;
 
-public class BoundService extends Service {
+public class BinderService extends Service implements Api {
     private final IBinder binder = new LocalBinder();
     private final Random mGenerator = new Random();
 
-    public BoundService() {
+    public BinderService() {
     }
 
     public class LocalBinder extends Binder {
-        public BoundService getService() {
+        public Api getApi() {
             // Return this instance of LocalService so clients can call public methods
-            return BoundService.this;
+            // Or, return an api interface that this service implements
+            return BinderService.this;
         }
     }
 
@@ -29,6 +30,7 @@ public class BoundService extends Service {
     /**
      * method for clients
      */
+    @Override
     public int getRandomNumber() {
         return mGenerator.nextInt(100);
     }
