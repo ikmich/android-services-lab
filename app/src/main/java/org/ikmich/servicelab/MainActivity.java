@@ -21,13 +21,13 @@ public class MainActivity extends AppCompatActivity {
 
         new StartedServiceHelper().init();
 
-        BoundServiceWithBinderHelper boundServiceWithBinderHelper =
-                new BoundServiceWithBinderHelper(this);
-        boundServiceWithBinderHelper.init();
+        IBinderServiceHelper iBinderServiceHelper =
+                new IBinderServiceHelper(this);
+        iBinderServiceHelper.init();
 
-        BoundServiceWithMessengerHelper boundServiceWithMessengerHelper =
-                new BoundServiceWithMessengerHelper(this);
-        boundServiceWithMessengerHelper.init();
+        BoundMessengerServiceHelper boundMessengerServiceHelper =
+                new BoundMessengerServiceHelper(this);
+        boundMessengerServiceHelper.init();
     }
 
     class StartedServiceHelper {

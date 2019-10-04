@@ -19,11 +19,12 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import org.ikmich.servicelab.databinding.ActivityMainBinding;
-import org.ikmich.servicelab.services.MessengerService;
+import org.ikmich.servicelab.services.messengerservice.Api;
+import org.ikmich.servicelab.services.messengerservice.MessengerService;
 
 import java.lang.ref.WeakReference;
 
-class BoundServiceWithMessengerHelper implements LifecycleObserver {
+class BoundMessengerServiceHelper implements LifecycleObserver {
     private AppCompatActivity activity;
     private ActivityMainBinding bnd;
 
@@ -31,7 +32,7 @@ class BoundServiceWithMessengerHelper implements LifecycleObserver {
     private Messenger replyMessenger;
     private boolean bound;
 
-    BoundServiceWithMessengerHelper(MainActivity activity) {
+    BoundMessengerServiceHelper(MainActivity activity) {
         this.activity = activity;
         bnd = activity.bnd;
         activity.getLifecycle().addObserver(this);
@@ -43,31 +44,21 @@ class BoundServiceWithMessengerHelper implements LifecycleObserver {
         bnd.btnBindServiceWithMessenger.setOnClickListener(clickListener);
         bnd.btnUnbindServiceWithMessenger.setOnClickListener(clickListener);
         bnd.btnCallBoundServiceWithMessengerMethod.setOnClickListener(clickListener);
-
-        // replyMessenger = new Messenger(clientHandler); )
     }
 
-    // Handler clientHandler = new Handler() {
-    //     @Override
-    //     public void handleMessage(@NonNull Message msg) {
-    //         super.handleMessage(msg);
-    //         Toast.makeText(activity, "Received reply!", Toast.LENGTH_SHORT).show();
-    //     }
-    // };
-
-    private WeakReference<BoundServiceWithMessengerHelper> weakRef;
+    private WeakReference<BoundMessengerServiceHelper> weakRef;
 
     static class ClientHandler extends Handler {
-        WeakReference<BoundServiceWithMessengerHelper> weakRef;
+        WeakReference<BoundMessengerServiceHelper> weakRef;
 
-        ClientHandler(WeakReference<BoundServiceWithMessengerHelper> weakRef) {
+        ClientHandler(WeakReference<BoundMessengerServiceHelper> weakRef) {
             this.weakRef = weakRef;
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
-                case MessengerService.REPLY:
+                case Api.REPLY:
                     Toast.makeText(weakRef.get().activity, "Response received!", Toast.LENGTH_SHORT).show();
                     break;
                 default:
@@ -91,11 +82,11 @@ class BoundServiceWithMessengerHelper implements LifecycleObserver {
         }
     };
 
-    private void sayHello(View v) {
+    private void callServiceSayHello(View v) {
         if (!bound) return;
 
         // Create and send a message to the service, using a supported 'what' value
-        Message msg = Message.obtain(null, MessengerService.MSG_SAY_HELLO, 0, 0);
+        Message msg = Message.obtain(null, Api.MSG_SAY_HELLO, 0, 0);
         msg.replyTo = replyMessenger;
 
         try {
@@ -114,7 +105,7 @@ class BoundServiceWithMessengerHelper implements LifecycleObserver {
             } else if (view == bnd.btnUnbindServiceWithMessenger) {
                 doUnbind();
             } else if (view == bnd.btnCallBoundServiceWithMessengerMethod) {
-                sayHello(view);
+                callServiceSayHello(view);
             }
         }
     }

@@ -17,14 +17,14 @@ import org.ikmich.servicelab.databinding.ActivityMainBinding;
 import org.ikmich.servicelab.services.binderservice.Api;
 import org.ikmich.servicelab.services.binderservice.BinderService;
 
-class BoundServiceWithBinderHelper implements LifecycleObserver {
+class IBinderServiceHelper implements LifecycleObserver {
 
     private AppCompatActivity activity;
     private boolean mBound;
     private Api serviceApi;
     private ActivityMainBinding bnd;
 
-    BoundServiceWithBinderHelper(MainActivity activity) {
+    IBinderServiceHelper(MainActivity activity) {
         this.activity = activity;
         this.bnd = activity.bnd;
         activity.getLifecycle().addObserver(this);
